@@ -279,7 +279,7 @@ export default function AdminClient() {
                   <button
                     type="button"
                     onClick={resetForm}
-                    className="text-sm text-muted hover:text-[var(--color-primary)]"
+                    className="text-sm text-muted hover:text-(--color-primary)"
                   >
                     Отмена
                   </button>
@@ -362,7 +362,7 @@ export default function AdminClient() {
                         }
                       }}
                       placeholder="Название"
-                      className="input flex-1 !w-auto min-w-0"
+                      className="input flex-1 w-auto! min-w-0"
                     />
                     <input
                       type="number"
@@ -375,7 +375,7 @@ export default function AdminClient() {
                         }
                       }}
                       placeholder="Кол-во"
-                      className="input !w-28 shrink-0"
+                      className="input w-28! shrink-0"
                       min="0"
                       step="0.1"
                     />
