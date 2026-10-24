@@ -317,7 +317,7 @@ export default function MyRecipesClient() {
                     }
                   }}
                   placeholder="Название"
-                  className="input flex-1 !w-auto min-w-0"
+                  className="input flex-1 w-auto! min-w-0"
                 />
                 <input
                   type="number"
@@ -330,7 +330,7 @@ export default function MyRecipesClient() {
                     }
                   }}
                   placeholder="Кол-во"
-                  className="input !w-28 shrink-0"
+                  className="input w-28! shrink-0"
                   min="0"
                   step="0.1"
                 />
