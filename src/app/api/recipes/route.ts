@@ -1,8 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import { NextResponse } from 'next/server'
-import { NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 
-// GET /api/recipes?q=&category=&ingredient=
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const q = searchParams.get('q')
@@ -11,8 +9,9 @@ export async function GET(request: NextRequest) {
 
   const where: any = {}
 
+  // SQLite не поддерживает mode: 'insensitive'
   if (q) {
-    where.title = { contains: q, mode: 'insensitive' }
+    where.title = { contains: q }
   }
 
   if (category && category !== 'all') {
@@ -23,7 +22,7 @@ export async function GET(request: NextRequest) {
     where.ingredients = {
       some: {
         ingredient: {
-          name: { contains: ingredient, mode: 'insensitive' },
+          name: { contains: ingredient },
         },
       },
     }

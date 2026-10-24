@@ -11,8 +11,9 @@ export default async function RecipesPage({ searchParams }: Props) {
 
   const where: any = {}
 
+  // SQLite не поддерживает mode: 'insensitive'
   if (q) {
-    where.title = { contains: q, mode: 'insensitive' }
+    where.title = { contains: q }
   }
 
   if (category && category !== 'all') {
@@ -23,7 +24,7 @@ export default async function RecipesPage({ searchParams }: Props) {
     where.ingredients = {
       some: {
         ingredient: {
-          name: { contains: ingredient, mode: 'insensitive' },
+          name: { contains: ingredient },
         },
       },
     }
@@ -39,7 +40,6 @@ export default async function RecipesPage({ searchParams }: Props) {
     },
   })
 
-  // Уникальные категории и ингредиенты для фильтров
   const categories = await prisma.recipe.findMany({
     select: { category: true },
     distinct: ['category'],
@@ -53,7 +53,12 @@ export default async function RecipesPage({ searchParams }: Props) {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl text-gray-800 font-bold mb-6">Каталог рецептов</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl text-gray-800 font-bold">Каталог рецептов</h1>
+          <Link href="/" className="text-blue-600 hover:underline text-sm">
+            ← На главную
+          </Link>
+        </div>
 
         <RecipeFilters
           initialQ={q || ''}
