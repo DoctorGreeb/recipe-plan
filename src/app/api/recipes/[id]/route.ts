@@ -1,14 +1,22 @@
 import { prisma } from '@/lib/prisma'
+import { getUserId } from '@/lib/userAuth'
 import { NextResponse } from 'next/server'
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
+  const userId = await getUserId()
 
-  const recipe = await prisma.recipe.findUnique({
-    where: { id },
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      id,
+      OR: [
+        { status: 'published' },
+        ...(userId ? [{ authorId: userId }] : []),
+      ],
+    },
     include: {
       ingredients: {
         include: { ingredient: true },
