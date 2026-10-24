@@ -254,7 +254,52 @@ export default function MenuPage() {
         {loading ? (
           <p className="text-muted">Загрузка...</p>
         ) : (
-          <div className="overflow-x-auto" aria-label="План меню на неделю">
+          <section className="mb-4 grid gap-3 md:hidden" aria-label="План меню по дням">
+            {DAY_LABELS.map((label, day) => {
+              const date = addDays(weekStart, day)
+              return (
+                <article key={day} className="card">
+                  <div className="mb-3 flex items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
+                    <h2 className="font-bold">{label}</h2>
+                    <span className="text-sm text-muted">{format(date, 'd MMM', { locale: ru })}</span>
+                  </div>
+                  <div className="grid gap-2">
+                    {MEALS.map(({ type, label: mealName }) => {
+                      const item = findItem(day, type)
+                      return (
+                        <div key={type} className="flex min-w-0 items-stretch gap-2">
+                          <button
+                            type="button"
+                            onClick={() => openPicker(day, type)}
+                            className="flex min-h-12 min-w-0 flex-1 items-center justify-between gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-muted)] px-3 py-2 text-left transition hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]"
+                          >
+                            <span className="min-w-0">
+                              <span className="block text-xs font-semibold text-muted">{mealName}</span>
+                              <span className="mt-0.5 block break-words text-sm font-medium">{item?.recipe.title || '＋ Добавить блюдо'}</span>
+                              {item?.recipe.calories != null && <span className="mt-0.5 block text-xs text-muted">{item.recipe.calories} ккал</span>}
+                            </span>
+                            <span className="shrink-0 text-[var(--color-primary)]" aria-hidden="true">→</span>
+                          </button>
+                          {item && (
+                            <button
+                              type="button"
+                              onClick={() => requestClear(day, type, item.recipe.title)}
+                              className="btn btn-outline self-center px-3"
+                              aria-label={`Убрать ${item.recipe.title} из меню`}
+                              title="Убрать блюдо"
+                            >
+                              ×
+                            </button>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </article>
+              )
+            })}
+          </section>
+          <div className="hidden overflow-x-auto md:block" aria-label="План меню на неделю">
             <table className="w-full border-collapse min-w-[640px]">
               <thead>
                 <tr>
