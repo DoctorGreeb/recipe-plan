@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"   // для учебной практики идеально (без установки PostgreSQL)
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  instructions String  // пошаговая инструкция (можно Markdown)
+  calories    Int?     // калорийность на порцию
+  category    String   // "завтрак", "обед", "ужин", "десерт" и т.д.
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ingredients RecipeIngredient[]
+  menuItems   MenuItem[]
+}
+
+model Ingredient {
+  id       String   @id @default(cuid())
+  name     String   @unique
+  unit     String   @default("г") // г, мл, шт и т.д.
+
+  recipes  RecipeIngredient[]
+  shoppingItems ShoppingItem[]
+}
+
+model RecipeIngredient {
+  id           String @id @default(cuid())
+  recipeId     String
+  ingredientId String
+  amount       Float  // граммовка / количество
+
+  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@unique([recipeId, ingredientId])
+}
+
+model MenuItem {
+  id        String   @id @default(cuid())
+  recipeId  String
+  dayOfWeek Int      // 0 = понедельник ... 6 = воскресенье
+  mealType  String   // "breakfast" | "lunch" | "dinner"
+  weekStart DateTime // начало недели (понедельник)
+
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([weekStart, dayOfWeek, mealType])
+}
+
+model ShoppingItem {
+  id          String  @id @default(cuid())
+  ingredientId String
+  amount      Float
+  unit        String
+  isBought    Boolean @default(false)
+  weekStart   DateTime
+
+  ingredient  Ingredient @relation(fields: [ingredientId], references: [id])
+}
