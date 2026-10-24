@@ -59,7 +59,7 @@ export default async function RecipesPage({ searchParams }: Props) {
     <div className="page">
       <div className="mx-auto w-full max-w-5xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3 sm:mb-8">
-          <div><p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">Найдите своё блюдо</p><h1 className="text-3xl font-bold">Каталог рецептов</h1><p className="mt-2 text-sm text-secondary">Идеи для завтрака, обеда, ужина и не только.</p></div>
+          <div><p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-(--color-primary)">Найдите своё блюдо</p><h1 className="text-3xl font-bold">Каталог рецептов</h1><p className="mt-2 text-sm text-secondary">Идеи для завтрака, обеда, ужина и не только.</p></div>
           <Link href="/" className="link text-sm">
             ← На главную
           </Link>
@@ -87,11 +87,11 @@ export default async function RecipesPage({ searchParams }: Props) {
                 href={`/recipes/${recipe.id}`}
                 className="recipe-card group"
               >
-                <div className="mb-4 flex items-center justify-between gap-3"><span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] text-lg text-[var(--color-primary)]" aria-hidden="true">✳</span><span className="text-xs font-semibold uppercase tracking-wide text-muted">Рецепт</span></div><h2 className="text-xl font-bold transition-colors group-hover:text-[var(--color-primary)]">{recipe.title}</h2>
+                <div className="mb-4 flex items-center justify-between gap-3"><span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-(--color-primary-soft) text-lg text-(--color-primary)" aria-hidden="true">✳</span><span className="text-xs font-semibold uppercase tracking-wide text-muted">Рецепт</span></div><h2 className="text-xl font-bold transition-colors group-hover:text-(--color-primary)">{recipe.title}</h2>
                 <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-secondary">{recipe.description || "Простой рецепт, который стоит попробовать."}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-muted">
                   <span className="badge">{recipe.category}</span>
-                  {recipe.calories != null && <span className="rounded-full bg-[var(--bg-muted)] px-3 py-1 text-xs font-medium">{recipe.calories} ккал</span>}
+                  {recipe.calories != null && <span className="rounded-full bg-(--bg-muted) px-3 py-1 text-xs font-medium">{recipe.calories} ккал</span>}
                 </div>
               </Link>
             ))}
