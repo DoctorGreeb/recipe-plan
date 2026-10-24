@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function LoginPage() {
   const [login, setLogin] = useState('')
@@ -39,7 +40,7 @@ export default function LoginPage() {
           placeholder="Логин"
           value={login}
           onChange={(e) => setLogin(e.target.value)}
-          className="input mb-3"
+          className="input w-full mb-3"
           required
         />
         <input
@@ -47,12 +48,18 @@ export default function LoginPage() {
           placeholder="Пароль"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="input mb-4"
+          className="input w-full mb-4"
           required
         />
         <button type="submit" className="btn btn-primary w-full">
           Войти
         </button>
+
+        <p className="text-center mt-4">
+          <Link href="/" className="link text-sm">
+            ← На главную
+          </Link>
+        </p>
       </form>
     </div>
   )

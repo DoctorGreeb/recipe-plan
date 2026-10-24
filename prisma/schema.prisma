@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  recipes Recipe[]
+}
+
 model Recipe {
   id          String   @id @default(cuid())
   title       String
@@ -20,6 +30,9 @@ model Recipe {
 
   ingredients RecipeIngredient[]
   menuItems   MenuItem[]
+
+  authorId  String?
+  author    User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
 }
 
 model Ingredient {

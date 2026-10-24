@@ -9,27 +9,15 @@ interface Props {
 export default async function RecipesPage({ searchParams }: Props) {
   const { q, category, ingredient } = await searchParams
 
-  const where: any = {}
-
-  if (q) {
-    where.title = { contains: q }
+  const where: { status: string; category?: string } = {
+    status: 'published',
   }
 
   if (category && category !== 'all') {
     where.category = category
   }
 
-  if (ingredient) {
-    where.ingredients = {
-      some: {
-        ingredient: {
-          name: { contains: ingredient },
-        },
-      },
-    }
-  }
-
-  const recipes = await prisma.recipe.findMany({
+  const all = await prisma.recipe.findMany({
     where,
     orderBy: { title: 'asc' },
     include: {
@@ -39,12 +27,30 @@ export default async function RecipesPage({ searchParams }: Props) {
     },
   })
 
+  const qNorm = q?.trim().toLowerCase() ?? ''
+  const ingNorm = ingredient?.trim().toLowerCase() ?? ''
+
+  const recipes = all.filter((recipe) => {
+    if (qNorm && !recipe.title.toLowerCase().includes(qNorm)) {
+      return false
+    }
+    if (
+      ingNorm &&
+      !recipe.ingredients.some((ri) =>
+        ri.ingredient.name.toLowerCase().includes(ingNorm)
+      )
+    ) {
+      return false
+    }
+    return true
+  })
+
   const categories = await prisma.recipe.findMany({
     select: { category: true },
     distinct: ['category'],
   })
 
-  const ingredients = await prisma.ingredient.findMany({
+  const ingredientsList = await prisma.ingredient.findMany({
     select: { name: true },
     orderBy: { name: 'asc' },
   })
@@ -64,7 +70,7 @@ export default async function RecipesPage({ searchParams }: Props) {
           initialCategory={category || 'all'}
           initialIngredient={ingredient || ''}
           categories={categories.map((c) => c.category)}
-          ingredients={ingredients.map((i) => i.name)}
+          ingredients={ingredientsList.map((i) => i.name)}
         />
 
         <p className="text-sm text-muted mb-4">

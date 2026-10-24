@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { getUserId } from '@/lib/userAuth'
 
 export default async function RecipePage({
   params,
@@ -8,6 +9,7 @@ export default async function RecipePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  const userId = await getUserId()
 
   const recipe = await prisma.recipe.findUnique({
     where: { id },
@@ -20,21 +22,35 @@ export default async function RecipePage({
 
   if (!recipe) notFound()
 
+  const isAuthor = !!userId && recipe.authorId === userId
+  const isPublic = recipe.status === 'published'
+
+  if (!isPublic && !isAuthor) {
+    notFound()
+  }
+
   return (
     <div className="page">
       <div className="max-w-3xl mx-auto">
-        <Link href="/recipes" className="link mb-6 inline-block">
-          ← Назад к каталогу
+        <Link href={isAuthor && !isPublic ? '/my-recipes' : '/recipes'} className="link mb-6 inline-block">
+          {isAuthor && !isPublic ? '← К моим рецептам' : '← Назад к каталогу'}
         </Link>
 
         <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
         <p className="text-secondary mb-4">{recipe.description}</p>
 
-        <div className="flex gap-4 text-sm mb-8">
+        <div className="flex flex-wrap gap-4 text-sm mb-8">
           <span className="badge">{recipe.category}</span>
-          {recipe.calories && (
+          {recipe.calories != null && (
             <span className="badge" style={{ background: '#d1fae5', color: '#065f46' }}>
               {recipe.calories} ккал
+            </span>
+          )}
+          {isAuthor && recipe.status !== 'published' && (
+            <span className="badge" style={{ background: '#fef3c7', color: '#92400e' }}>
+              {recipe.status === 'draft' && 'Черновик'}
+              {recipe.status === 'pending' && 'На проверке'}
+              {recipe.status === 'rejected' && 'Отклонён'}
             </span>
           )}
         </div>

@@ -25,15 +25,17 @@ export async function POST(request: Request) {
         description: description || null,
         instructions: instructions || '',
         calories: calories ? Number(calories) : null,
-        category, // просто строка
+        category,
+        authorId: null,
+        status: 'published',
         ingredients: {
           create: (ingredients || []).map(
             (ing: { name: string; amount: number }) => ({
               amount: Number(ing.amount) || 0,
               ingredient: {
                 connectOrCreate: {
-                  where: { name: ing.name.trim() },
-                  create: { name: ing.name.trim() },
+                  where: { name: String(ing.name).trim() },
+                  create: { name: String(ing.name).trim() },
                 },
               },
             })
@@ -42,9 +44,7 @@ export async function POST(request: Request) {
       },
       include: {
         ingredients: {
-          include: {
-            ingredient: true,
-          },
+          include: { ingredient: true },
         },
       },
     })

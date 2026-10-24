@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { checkAuth } from '@/lib/auth'
+import { deleteOrphanIngredients } from '@/lib/cleanupIngredients'
 
 export async function GET() {
   const isAuth = await checkAuth()
@@ -37,6 +38,8 @@ export async function DELETE(request: Request) {
 
   try {
     await prisma.recipe.delete({ where: { id } })
+    // RecipeIngredient снялись каскадом; MenuItem этого рецепта — тоже
+    await deleteOrphanIngredients()
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Ошибка при удалении' }, { status: 500 })
@@ -91,7 +94,7 @@ export async function PUT(request: Request) {
         },
       },
     })
-
+    await deleteOrphanIngredients()
     return NextResponse.json(recipe)
   } catch (error) {
     console.error(error)
