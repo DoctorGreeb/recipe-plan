@@ -100,7 +100,7 @@ export default async function Home() {
                 <p className="mt-1 text-xs text-[#526b56]">Вдохновение на каждый день</p>
               </div>
             </div>
-            <div className="mt-7 flex min-h-36 flex-col justify-between rounded-2xl bg-[#f5eddd] p-4 sm:min-h-44 sm:p-5">
+            <div className="flex min-h-36 flex-col justify-between rounded-2xl bg-[#f5eddd] p-4 sm:min-h-44 sm:p-5">
               <span className="flex size-10 items-center justify-center text-[#69512c]">
                 <CalendarDays size={36} strokeWidth={1.7} aria-hidden="true" />
               </span>

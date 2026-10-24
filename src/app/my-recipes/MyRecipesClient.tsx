@@ -284,7 +284,7 @@ export default function MyRecipesClient() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Калории</label>
+                <label className="block text-sm font-medium mb-1">Килокалории</label>
                 <input
                   type="number"
                   value={calories}
@@ -329,7 +329,7 @@ export default function MyRecipesClient() {
                       addIngredient()
                     }
                   }}
-                  placeholder="Кол-во"
+                  placeholder="грамм"
                   className="input w-28! shrink-0"
                   min="0"
                   step="0.1"
