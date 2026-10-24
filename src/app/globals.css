@@ -351,3 +351,40 @@ button {
   .page .card .flex.gap-2.shrink-0 { flex-wrap:wrap; }
   .page [role="dialog"] { max-height:88dvh; overflow-y:auto; }
 }
+
+
+/* Responsive layouts for planning, shopping and account workspaces. */
+@layer components {
+  .page .overflow-x-auto { border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--bg-card); box-shadow: var(--shadow); }
+  .page .overflow-x-auto table { min-width: 640px; }
+  .page .overflow-x-auto td { padding-top: .65rem; padding-bottom: .65rem; }
+  .page .overflow-x-auto [role="button"] { min-height: 5rem; border-radius: .75rem; }
+  .page ul > li + li { border-color: var(--border); }
+  .page form { min-width: 0; }
+  .page form .flex.gap-2.mb-2 { flex-wrap: wrap; }
+  .page form .flex.gap-2.mb-2 > input:first-child { flex: 1 1 10rem; }
+  .page form .flex.gap-2.mb-2 > input:nth-child(2) { flex: 0 1 7rem; }
+  .page form .flex.gap-2.mb-2 > button { flex: 0 0 auto; }
+  .page .border.rounded-lg.p-4 { border-color: var(--border); border-radius: 1rem; background: var(--bg-card); }
+  .page .bg-blue-100 { background: var(--color-primary-soft); color: #315c3e; }
+  .page .text-blue-600 { color: var(--color-primary); }
+  .page .border-blue-400 { border-color: var(--color-primary); }
+  .page .bg-blue-50 { background: #f0f6ef; }
+  .page .bg-red-50 { background: #fff2f0; }
+  .page .text-red-500 { color: var(--color-danger); }
+  .page .btn-danger { color: #fff; }
+}
+@media (max-width: 640px) {
+  .page .overflow-x-auto { margin-inline: -0.25rem; max-width: calc(100% + .5rem); }
+  .page .overflow-x-auto table { min-width: 680px; }
+  .page .card { padding: 1rem; }
+  .page .flex.flex-wrap.items-center.justify-between.gap-4.mb-6 { align-items: flex-start; }
+  .page .flex.gap-3.justify-end { flex-wrap: wrap; }
+  .page .flex.gap-3.justify-end > button { flex: 1 1 7rem; }
+  .page .flex.gap-2.shrink-0 { flex-wrap: wrap; }
+  .page .flex.gap-2.shrink-0 > button { flex: 1 1 auto; }
+  .page .card .flex.flex-wrap.items-center.gap-3 > button { flex: 1 1 8rem; }
+  .page .recipe-ingredient { align-items: baseline; }
+  .page .recipe-ingredient > span:last-child { text-align: right; white-space: nowrap; }
+  .page form .flex.gap-2.mb-2 > button { flex: 1 1 100%; }
+}
