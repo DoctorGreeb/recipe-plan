@@ -217,7 +217,7 @@ export default function ShoppingPage() {
                                                     type="checkbox"
                                                     checked={false}
                                                     onChange={() => toggleItem(item.id, true)}
-                                                    className="w-4 h-4 accent-[var(--color-primary)]"
+                                                    className="w-4 h-4 accent-(--color-primary)"
                                                 />
                                                 <span className="flex-1 font-medium">
                                                     {item.ingredient.name}
@@ -243,7 +243,7 @@ export default function ShoppingPage() {
                                                     type="checkbox"
                                                     checked={true}
                                                     onChange={() => toggleItem(item.id, false)}
-                                                    className="w-4 h-4 accent-[var(--color-primary)]"
+                                                    className="w-4 h-4 accent-(--color-primary)"
                                                 />
                                                 <span className="flex-1 text-muted line-through">
                                                     {item.ingredient.name}
