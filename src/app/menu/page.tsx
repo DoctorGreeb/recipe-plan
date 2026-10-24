@@ -259,7 +259,7 @@ export default function MenuPage() {
               const date = addDays(weekStart, day)
               return (
                 <article key={day} className="card">
-                  <div className="mb-3 flex items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
+                  <div className="mb-3 flex items-center justify-between gap-3 border-b border-(--border) pb-3">
                     <h2 className="font-bold">{label}</h2>
                     <span className="text-sm text-muted">{format(date, 'd MMM', { locale: ru })}</span>
                   </div>
@@ -271,14 +271,14 @@ export default function MenuPage() {
                           <button
                             type="button"
                             onClick={() => openPicker(day, type)}
-                            className="flex min-h-12 min-w-0 flex-1 items-center justify-between gap-3 rounded-xl border border-[var(--border)] bg-[var(--bg-muted)] px-3 py-2 text-left transition hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]"
+                            className="flex min-h-12 min-w-0 flex-1 items-center justify-between gap-3 rounded-xl border border-(--border) bg-(--bg-muted) px-3 py-2 text-left transition hover:border-(--color-primary) hover:bg-[var(--color-primary-soft)]"
                           >
                             <span className="min-w-0">
                               <span className="block text-xs font-semibold text-muted">{mealName}</span>
                               <span className="mt-0.5 block break-words text-sm font-medium">{item?.recipe.title || '＋ Добавить блюдо'}</span>
                               {item?.recipe.calories != null && <span className="mt-0.5 block text-xs text-muted">{item.recipe.calories} ккал</span>}
                             </span>
-                            <span className="shrink-0 text-[var(--color-primary)]" aria-hidden="true">→</span>
+                            <span className="shrink-0 text-(--color-primary)" aria-hidden="true">→</span>
                           </button>
                           {item && (
                             <button
@@ -300,7 +300,7 @@ export default function MenuPage() {
             })}
           </section>
           <div className="hidden overflow-x-auto md:block" aria-label="План меню на неделю">
-            <table className="w-full border-collapse min-w-[640px]">
+            <table className="w-full border-collapse min-w-160">
               <thead>
                 <tr>
                   <th className="p-2 text-left text-sm text-muted w-24">Приём</th>
@@ -319,7 +319,7 @@ export default function MenuPage() {
               </thead>
               <tbody>
                 {MEALS.map(({ type, label }) => (
-                  <tr key={type} className="border-t border-[var(--border)]">
+                  <tr key={type} className="border-t border-(--border)">
                     <td className="p-2 text-sm font-medium align-top pt-3">{label}</td>
                     {DAY_LABELS.map((_, day) => {
                       const item = findItem(day, type)
@@ -336,11 +336,11 @@ export default function MenuPage() {
                               }
                             }}
                             className={[
-                              'rounded-lg border min-h-[72px] p-2 text-sm transition cursor-pointer',
-                              'hover:border-[var(--color-primary)] hover:shadow-sm',
+                              'rounded-lg border min-h-18 p-2 text-sm transition cursor-pointer',
+                              'hover:border-(--color-primary) hover:shadow-sm',
                               item
-                                ? 'bg-[var(--bg-card)] border-[var(--border)]'
-                                : 'bg-[var(--bg-muted)] border-dashed border-[var(--border)]',
+                                ? 'bg-(--bg-card) border-(--border)'
+                                : 'bg-(--bg-muted) border-dashed border-(--border)',
                             ].join(' ')}
                           >
                             {item ? (
@@ -440,7 +440,7 @@ export default function MenuPage() {
                     type="button"
                     disabled={saving}
                     onClick={() => assignRecipe(r.id)}
-                    className="w-full text-left rounded-lg border border-[var(--border)] p-3 hover:border-[var(--color-primary)] hover:bg-[var(--bg-muted)] transition disabled:opacity-50"
+                    className="w-full text-left rounded-lg border border-(--border) p-3 hover:border-(--color-primary) hover:bg-(--bg-muted) transition disabled:opacity-50"
                   >
                     <div className="font-medium">{r.title}</div>
                     <div className="text-xs text-muted mt-1 flex flex-wrap gap-2 items-center">
