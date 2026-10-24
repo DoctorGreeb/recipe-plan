@@ -120,13 +120,13 @@ export default function ShoppingPage() {
 
     return (
         <div className="page">
-            <div className="max-w-2xl mx-auto">
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="mx-auto w-full max-w-3xl">
+                <div className="mb-6 flex flex-wrap items-center justify-between gap-4 sm:mb-8">
                     <div>
                         <h1 className="text-3xl font-bold">Список покупок</h1>
                         <p className="text-secondary mt-1">{rangeLabel}</p>
                     </div>
-                    <div className="flex gap-3 text-sm">
+                    <div className="flex flex-wrap gap-3 text-sm">
                         <Link href="/menu" className="link">
                             Меню
                         </Link>
@@ -175,7 +175,7 @@ export default function ShoppingPage() {
                 ) : (
                     <>
                         {/* Действия над списком — отдельная строка */}
-                        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-white p-4">
                             <span className="text-sm text-muted">
                                 Осталось: {remaining.length} · Куплено: {bought.length}
                             </span>
