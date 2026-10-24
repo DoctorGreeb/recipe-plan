@@ -31,13 +31,13 @@ export default async function RecipePage({
 
   return (
     <div className="page">
-      <div className="max-w-3xl mx-auto">
+      <div className="mx-auto w-full max-w-3xl">
         <Link href={isAuthor && !isPublic ? '/my-recipes' : '/recipes'} className="link mb-6 inline-block">
           {isAuthor && !isPublic ? '← К моим рецептам' : '← Назад к каталогу'}
         </Link>
 
-        <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
-        <p className="text-secondary mb-4">{recipe.description}</p>
+        <div className="mb-5 mt-3 rounded-[1.5rem] border border-[var(--border)] bg-white p-5 shadow-sm sm:p-8"><p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">Рецепт</p><h1 className="mb-3 text-3xl font-bold sm:text-4xl">{recipe.title}</h1><p className="text-base leading-relaxed text-secondary">{recipe.description || "Всё необходимое для приготовления — ниже."}</p></div>
+        
 
         <div className="flex flex-wrap gap-4 text-sm mb-8">
           <span className="badge">{recipe.category}</span>
@@ -55,11 +55,11 @@ export default async function RecipePage({
           )}
         </div>
 
-        <section className="card mb-6">
+        <section className="card mb-4 sm:mb-6">
           <h2 className="text-xl font-semibold mb-4">Ингредиенты</h2>
           <ul className="space-y-2">
             {recipe.ingredients.map((item) => (
-              <li key={item.id} className="flex justify-between">
+              <li key={item.id} className="recipe-ingredient">
                 <span>{item.ingredient.name}</span>
                 <span className="text-secondary">
                   {item.amount} {item.ingredient.unit}

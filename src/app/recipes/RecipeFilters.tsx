@@ -48,7 +48,7 @@ export default function RecipeFilters({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow p-6 mb-6">
+    <div className="recipe-filters">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -60,7 +60,7 @@ export default function RecipeFilters({
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
             placeholder="Блины, курица..."
-            className="w-full border rounded-lg px-3 py-2"
+            className="input w-full"
           />
         </div>
 
@@ -71,7 +71,7 @@ export default function RecipeFilters({
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full border rounded-lg px-3 py-2"
+            className="input w-full"
           >
             <option value="all">Все категории</option>
             {categories.map((cat) => (
@@ -93,7 +93,7 @@ export default function RecipeFilters({
             onChange={(e) => setIngredient(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
             placeholder="Мука, курица..."
-            className="w-full border rounded-lg px-3 py-2"
+            className="input w-full"
           />
           <datalist id="ingredients-list">
             {ingredients.map((name) => (
@@ -103,16 +103,16 @@ export default function RecipeFilters({
         </div>
       </div>
 
-      <div className="flex gap-3 mt-4">
+      <div className="recipe-filter-actions">
         <button
           onClick={applyFilters}
-          className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="btn btn-primary"
         >
           Найти
         </button>
         <button
           onClick={reset}
-          className="px-5 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          className="btn btn-outline"
         >
           Сброс
         </button>
