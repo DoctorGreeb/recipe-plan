@@ -271,7 +271,7 @@ export default function MenuPage() {
                           <button
                             type="button"
                             onClick={() => openPicker(day, type)}
-                            className="flex min-h-12 min-w-0 flex-1 items-center justify-between gap-3 rounded-xl border border-(--border) bg-(--bg-muted) px-3 py-2 text-left transition hover:border-(--color-primary) hover:bg-[var(--color-primary-soft)]"
+                            className="flex min-h-12 min-w-0 flex-1 items-center justify-between gap-3 rounded-xl border border-(--border) bg-(--bg-muted) px-3 py-2 text-left transition hover:border-(--color-primary) hover:bg-(--color-primary-soft)"
                           >
                             <span className="min-w-0">
                               <span className="block text-xs font-semibold text-muted">{mealName}</span>
