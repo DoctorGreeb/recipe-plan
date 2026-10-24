@@ -36,7 +36,7 @@ export default async function RecipePage({
           {isAuthor && !isPublic ? '← К моим рецептам' : '← Назад к каталогу'}
         </Link>
 
-        <div className="mb-5 mt-3 rounded-[1.5rem] border border-[var(--border)] bg-white p-5 shadow-sm sm:p-8"><p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-primary)]">Рецепт</p><h1 className="mb-3 text-3xl font-bold sm:text-4xl">{recipe.title}</h1><p className="text-base leading-relaxed text-secondary">{recipe.description || "Всё необходимое для приготовления — ниже."}</p></div>
+        <div className="mb-5 mt-3 rounded-3xl border border-(--border) bg-white p-5 shadow-sm sm:p-8"><p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-(--color-primary)">Рецепт</p><h1 className="mb-3 text-3xl font-bold sm:text-4xl">{recipe.title}</h1><p className="text-base leading-relaxed text-secondary">{recipe.description || "Всё необходимое для приготовления — ниже."}</p></div>
         
 
         <div className="flex flex-wrap gap-4 text-sm mb-8">
