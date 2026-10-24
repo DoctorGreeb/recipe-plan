@@ -131,7 +131,7 @@ export default async function Home() {
                 className="card group flex min-h-52 flex-col items-start p-5 sm:p-6"
                 style={{ animation: 'soft-rise 420ms ease both', animationDelay: `${index * 70}ms` }}
               >
-                <span className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-[var(--color-primary-soft)] text-xl font-semibold text-(--color-primary) transition-transform duration-200 group-hover:scale-105">
+                <span className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-(--color-primary-soft) text-xl font-semibold text-(--color-primary) transition-transform duration-200 group-hover:scale-105">
                   {section.symbol}
                 </span>
                 <span className="mb-2 text-[0.68rem] font-bold tracking-[0.14em] text-muted">{section.eyebrow}</span>
