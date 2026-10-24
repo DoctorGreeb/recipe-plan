@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
+/* ============================================
+   ПАЛИТРА ЦВЕТОВ — меняй только здесь
+   ============================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Фоны */
+  --bg-page: #f9fafb;        /* основной фон страниц */
+  --bg-card: #ffffff;        /* карточки, формы */
+  --bg-muted: #f3f4f6;       /* вторичный фон */
+
+  /* Текст */
+  --text-primary: #1f2937;   /* заголовки, основной текст */
+  --text-secondary: #4b5563; /* описания */
+  --text-muted: #6b7280;     /* подсказки, мелкий текст */
+  --text-on-primary: #ffffff;/* текст на синих кнопках */
+
+  /* Акценты */
+  --color-primary: #2563eb;  /* кнопки, ссылки */
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-success: #10b981;
+
+  /* Рамки и тени */
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ============================================
+   БАЗОВЫЕ СТИЛИ
+   ============================================ */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ============================================
+   ПОВТОРНО ИСПОЛЬЗУЕМЫЕ КЛАССЫ
+   ============================================ */
+.page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  padding: 2rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.15s, opacity 0.15s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--text-on-primary);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--color-danger-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.btn-outline:hover {
+  background: var(--bg-muted);
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--color-primary);
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Бейджи категорий */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  background: #dbeafe;
+  color: #1d4ed8;
 }
