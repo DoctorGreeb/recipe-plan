@@ -71,7 +71,7 @@ export default function RecipeFilters({
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full border rounded-lg px-3 py-2"
+            className="input w-full"
           >
             <option value="all">Все категории</option>
             {categories.map((cat) => (
@@ -93,7 +93,7 @@ export default function RecipeFilters({
             onChange={(e) => setIngredient(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
             placeholder="Мука, курица..."
-            className="w-full border rounded-lg px-3 py-2"
+            className="input w-full"
           />
           <datalist id="ingredients-list">
             {ingredients.map((name) => (
