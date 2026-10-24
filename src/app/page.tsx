@@ -70,7 +70,7 @@ export default async function Home() {
           </div>
         </header>
 
-        <section className="mb-12 grid items-center gap-8 rounded-[1.75rem] border border-[var(--border)] bg-white p-6 shadow-sm sm:mb-16 sm:gap-10 sm:p-10 md:grid-cols-[1.2fr_0.8fr] md:p-14">
+        <section className="mb-12 grid items-center gap-8 rounded-[1.75rem] border border-(--border) bg-white p-6 shadow-sm sm:mb-16 sm:gap-10 sm:p-10 md:grid-cols-[1.2fr_0.8fr] md:p-14">
           <div className="max-w-2xl">
             <span className="badge mb-5">Планирование без суеты</span>
             <h1 className="mb-5 text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl">
@@ -104,7 +104,7 @@ export default async function Home() {
                 <p className="mt-1 text-xs text-[#69512c]">Всё на своих местах</p>
               </div>
             </div>
-            <div className="col-span-2 flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-[#f8faf7] p-4 sm:p-5">
+            <div className="col-span-2 flex items-center gap-4 rounded-2xl border border-(--border) bg-[#f8faf7] p-4 sm:p-5">
               <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white text-xl shadow-sm">✓</span>
               <div>
                 <p className="font-semibold">Меньше лишних покупок</p>
@@ -143,7 +143,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <footer className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border)] py-6 text-sm text-muted">
+        <footer className="mt-14 flex flex-wrap items-center justify-between gap-3 border-t border-(--border) py-6 text-sm text-muted">
           <span>Recipe Plan · Планируйте с удовольствием</span>
           {!userId && <Link href="/admin/login" className="link">Для модераторов</Link>}
         </footer>
