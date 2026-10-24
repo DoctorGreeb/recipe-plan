@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { CalendarDays, Sprout } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { getUserId } from '@/lib/userAuth'
 import LogoutButton from './LogoutButton'
@@ -91,14 +92,18 @@ export default async function Home() {
 
           <div className="relative mx-auto grid w-full max-w-sm grid-cols-2 gap-3" aria-hidden="true">
             <div className="flex min-h-36 flex-col justify-between rounded-2xl bg-[#e7f0e5] p-4 sm:min-h-44 sm:p-5">
-              <span className="text-3xl">🥬</span>
+              <span className="flex size-10 items-center justify-center text-[#294b31]">
+                <Sprout size={36} strokeWidth={1.7} aria-hidden="true" />
+              </span>
               <div>
                 <p className="font-semibold text-[#294b31]">Свежие идеи</p>
                 <p className="mt-1 text-xs text-[#526b56]">Вдохновение на каждый день</p>
               </div>
             </div>
             <div className="mt-7 flex min-h-36 flex-col justify-between rounded-2xl bg-[#f5eddd] p-4 sm:min-h-44 sm:p-5">
-              <span className="text-3xl">🗓️</span>
+              <span className="flex size-10 items-center justify-center text-[#69512c]">
+                <CalendarDays size={36} strokeWidth={1.7} aria-hidden="true" />
+              </span>
               <div>
                 <p className="font-semibold text-[#69512c]">План на неделю</p>
                 <p className="mt-1 text-xs text-[#69512c]">Всё на своих местах</p>
