@@ -209,7 +209,7 @@ export default function MyRecipesClient() {
 
   return (
     <div className="page">
-      <div className="max-w-5xl mx-auto">
+      <div className="mx-auto w-full max-w-5xl">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">Мои рецепты</h1>
           <Link href="/" className="link text-sm">
