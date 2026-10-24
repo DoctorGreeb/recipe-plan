@@ -10,6 +10,7 @@ export async function GET() {
   }
 
   const recipes = await prisma.recipe.findMany({
+    where: { status: { not: 'pending' } },
     orderBy: { createdAt: 'desc' },
     include: {
       ingredients: {
