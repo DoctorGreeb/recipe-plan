@@ -31,10 +31,8 @@ export default function AdminClient() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  // Режим редактирования
   const [editingId, setEditingId] = useState<string | null>(null)
 
-  // Форма
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState(CATEGORIES[0])
@@ -171,36 +169,29 @@ export default function AdminClient() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="page flex items-center justify-center">
         <p>Загрузка...</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="page">
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl text-gray-800 font-bold">Админка рецептов</h1>
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-          >
+          <h1 className="text-3xl font-bold">Админка рецептов</h1>
+          <button onClick={handleLogout} className="btn btn-danger">
             Выйти
           </button>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-6 mb-10">
+        <div className="card mb-10">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-800">
+            <h2 className="text-xl font-semibold">
               {editingId ? 'Редактировать рецепт' : 'Добавить рецепт'}
             </h2>
             {editingId && (
-              <button
-                type="button"
-                onClick={resetForm}
-                className="text-sm text-gray-500 hover:text-gray-700"
-              >
+              <button type="button" onClick={resetForm} className="text-sm text-muted hover:text-primary">
                 Отмена
               </button>
             )}
@@ -211,34 +202,18 @@ export default function AdminClient() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-1">Название *</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2"
-                required
-              />
+              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="input" required />
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-1">Описание</label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2"
-                rows={2}
-              />
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="input" rows={2} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Категория *</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full border rounded-lg px-3 py-2"
-                  required
-                >
+                <select value={category} onChange={(e) => setCategory(e.target.value)} className="input" required>
                   {CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
@@ -246,24 +221,13 @@ export default function AdminClient() {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Калории</label>
-                <input
-                  type="number"
-                  value={calories}
-                  onChange={(e) => setCalories(e.target.value)}
-                  className="w-full border rounded-lg px-3 py-2"
-                  min="0"
-                />
+                <input type="number" value={calories} onChange={(e) => setCalories(e.target.value)} className="input" min="0" />
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-1">Инструкция</label>
-              <textarea
-                value={instructions}
-                onChange={(e) => setInstructions(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2"
-                rows={4}
-              />
+              <textarea value={instructions} onChange={(e) => setInstructions(e.target.value)} className="input" rows={4} />
             </div>
 
             <div>
@@ -274,22 +238,18 @@ export default function AdminClient() {
                   value={ingredientName}
                   onChange={(e) => setIngredientName(e.target.value)}
                   placeholder="Название"
-                  className="flex-1 border rounded-lg px-3 py-2"
+                  className="input flex-1"
                 />
                 <input
                   type="number"
                   value={ingredientAmount}
                   onChange={(e) => setIngredientAmount(e.target.value)}
                   placeholder="Кол-во"
-                  className="w-28 border rounded-lg px-3 py-2"
+                  className="input w-28"
                   min="0"
                   step="0.1"
                 />
-                <button
-                  type="button"
-                  onClick={addIngredient}
-                  className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
-                >
+                <button type="button" onClick={addIngredient} className="btn btn-outline">
                   Добавить
                 </button>
               </div>
@@ -297,16 +257,9 @@ export default function AdminClient() {
               {ingredients.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {ingredients.map((ing, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
-                    >
+                    <span key={i} className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
                       {ing.name} — {ing.amount}
-                      <button
-                        type="button"
-                        onClick={() => removeIngredient(i)}
-                        className="text-blue-600 hover:text-blue-900"
-                      >
+                      <button type="button" onClick={() => removeIngredient(i)} className="text-blue-600 hover:text-blue-900">
                         ×
                       </button>
                     </span>
@@ -315,27 +268,17 @@ export default function AdminClient() {
               )}
             </div>
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="w-full bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-            >
-              {submitting
-                ? 'Сохраняем...'
-                : editingId
-                ? 'Сохранить изменения'
-                : 'Добавить рецепт'}
+            <button type="submit" disabled={submitting} className="btn btn-primary w-full">
+              {submitting ? 'Сохраняем...' : editingId ? 'Сохранить изменения' : 'Добавить рецепт'}
             </button>
           </form>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl text-gray-800 font-semibold mb-4">
-            Все рецепты ({recipes.length})
-          </h2>
+        <div className="card">
+          <h2 className="text-xl font-semibold mb-4">Все рецепты ({recipes.length})</h2>
 
           {recipes.length === 0 ? (
-            <p className="text-gray-500">Пока нет рецептов</p>
+            <p className="text-muted">Пока нет рецептов</p>
           ) : (
             <div className="space-y-4">
               {recipes.map((recipe) => (
@@ -346,17 +289,15 @@ export default function AdminClient() {
                   }`}
                 >
                   <div>
-                    <h3 className="font-semibold text-gray-800 text-lg">{recipe.title}</h3>
-                    <p className="text-sm text-gray-500">
+                    <h3 className="font-semibold text-lg">{recipe.title}</h3>
+                    <p className="text-sm text-muted">
                       {recipe.category} · {recipe.calories ?? '—'} ккал
                     </p>
                     {recipe.description && (
-                      <p className="text-sm mt-1 text-gray-700 line-clamp-2">
-                        {recipe.description}
-                      </p>
+                      <p className="text-sm mt-1 text-secondary line-clamp-2">{recipe.description}</p>
                     )}
                     {recipe.ingredients?.length > 0 && (
-                      <p className="text-xs text-gray-500 mt-2">
+                      <p className="text-xs text-muted mt-2">
                         Ингредиенты:{' '}
                         {recipe.ingredients
                           .map((i) => `${i.ingredient.name} (${i.amount}${i.ingredient.unit})`)
@@ -365,16 +306,10 @@ export default function AdminClient() {
                     )}
                   </div>
                   <div className="flex gap-2 shrink-0">
-                    <button
-                      onClick={() => startEdit(recipe)}
-                      className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 text-sm"
-                    >
+                    <button onClick={() => startEdit(recipe)} className="btn btn-outline text-sm">
                       Редактировать
                     </button>
-                    <button
-                      onClick={() => handleDelete(recipe.id)}
-                      className="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm"
-                    >
+                    <button onClick={() => handleDelete(recipe.id)} className="btn btn-danger text-sm">
                       Удалить
                     </button>
                   </div>

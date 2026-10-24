@@ -11,7 +11,6 @@ export default async function RecipesPage({ searchParams }: Props) {
 
   const where: any = {}
 
-  // SQLite не поддерживает mode: 'insensitive'
   if (q) {
     where.title = { contains: q }
   }
@@ -51,11 +50,11 @@ export default async function RecipesPage({ searchParams }: Props) {
   })
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-4xl mx-auto ">
+    <div className="page">
+      <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl text-gray-800 font-bold">Каталог рецептов</h1>
-          <Link href="/" className="text-blue-600 hover:underline text-sm">
+          <h1 className="text-3xl font-bold">Каталог рецептов</h1>
+          <Link href="/" className="link text-sm">
             ← На главную
           </Link>
         </div>
@@ -68,12 +67,12 @@ export default async function RecipesPage({ searchParams }: Props) {
           ingredients={ingredients.map((i) => i.name)}
         />
 
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-sm text-muted mb-4">
           Найдено: {recipes.length}
         </p>
 
         {recipes.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-muted">
             Рецепты не найдены. Попробуйте изменить фильтры.
           </div>
         ) : (
@@ -82,14 +81,12 @@ export default async function RecipesPage({ searchParams }: Props) {
               <Link
                 key={recipe.id}
                 href={`/recipes/${recipe.id}`}
-                className="block p-6 bg-white rounded-xl shadow hover:shadow-md transition"
+                className="card block hover:shadow-md transition"
               >
-                <h2 className="text-xl text-gray-800 font-semibold">{recipe.title}</h2>
-                <p className="text-gray-600 mt-1">{recipe.description}</p>
-                <div className="mt-3 flex gap-3 text-sm text-gray-500">
-                  <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                    {recipe.category}
-                  </span>
+                <h2 className="text-xl font-semibold">{recipe.title}</h2>
+                <p className="text-secondary mt-1">{recipe.description}</p>
+                <div className="mt-3 flex gap-3 text-sm text-muted">
+                  <span className="badge">{recipe.category}</span>
                   {recipe.calories && <span>{recipe.calories} ккал</span>}
                 </div>
               </Link>
