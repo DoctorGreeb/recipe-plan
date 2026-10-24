@@ -36,13 +36,65 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    // Cascade удалит связанные RecipeIngredient
-    await prisma.recipe.delete({
-      where: { id },
-    })
-
+    await prisma.recipe.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Ошибка при удалении' }, { status: 500 })
+  }
+}
+
+export async function PUT(request: Request) {
+  const isAuth = await checkAuth()
+  if (!isAuth) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  try {
+    const body = await request.json()
+    const { id, title, description, category, calories, instructions, ingredients } = body
+
+    if (!id || !title || !category) {
+      return NextResponse.json(
+        { error: 'ID, название и категория обязательны' },
+        { status: 400 }
+      )
+    }
+
+    // Удаляем старые ингредиенты и создаём новые
+    await prisma.recipeIngredient.deleteMany({ where: { recipeId: id } })
+
+    const recipe = await prisma.recipe.update({
+      where: { id },
+      data: {
+        title,
+        description: description || null,
+        instructions: instructions || '',
+        calories: calories ? Number(calories) : null,
+        category,
+        ingredients: {
+          create: (ingredients || []).map(
+            (ing: { name: string; amount: number }) => ({
+              amount: Number(ing.amount) || 0,
+              ingredient: {
+                connectOrCreate: {
+                  where: { name: ing.name.trim() },
+                  create: { name: ing.name.trim() },
+                },
+              },
+            })
+          ),
+        },
+      },
+      include: {
+        ingredients: {
+          include: { ingredient: true },
+        },
+      },
+    })
+
+    return NextResponse.json(recipe)
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json({ error: 'Ошибка при обновлении' }, { status: 500 })
   }
 }

@@ -31,6 +31,9 @@ export default function AdminClient() {
   const [error, setError] = useState('')
   const router = useRouter()
 
+  // Режим редактирования
+  const [editingId, setEditingId] = useState<string | null>(null)
+
   // Форма
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -43,31 +46,59 @@ export default function AdminClient() {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    async function fetchRecipes() {
-      try {
-        const res = await fetch('/api/admin/recipes')
-        if (!res.ok) throw new Error('Не удалось загрузить рецепты')
-        const data = await res.json()
-        setRecipes(data)
-      } catch {
-        setError('Ошибка загрузки данных')
-      } finally {
-        setLoading(false)
-      }
-    }
-
     fetchRecipes()
   }, [])
+
+  async function fetchRecipes() {
+    try {
+      const res = await fetch('/api/admin/recipes')
+      if (!res.ok) throw new Error('Не удалось загрузить рецепты')
+      const data = await res.json()
+      setRecipes(data)
+    } catch {
+      setError('Ошибка загрузки данных')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function resetForm() {
+    setEditingId(null)
+    setTitle('')
+    setDescription('')
+    setCategory(CATEGORIES[0])
+    setCalories('')
+    setInstructions('')
+    setIngredients([])
+    setIngredientName('')
+    setIngredientAmount('')
+    setError('')
+  }
+
+  function startEdit(recipe: Recipe) {
+    setEditingId(recipe.id)
+    setTitle(recipe.title)
+    setDescription(recipe.description || '')
+    setCategory(recipe.category)
+    setCalories(recipe.calories?.toString() || '')
+    setInstructions(recipe.instructions || '')
+    setIngredients(
+      recipe.ingredients.map((i) => ({
+        name: i.ingredient.name,
+        amount: i.amount,
+      }))
+    )
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   async function handleDelete(id: string) {
     if (!confirm('Удалить этот рецепт?')) return
 
-    const res = await fetch(`/api/admin/recipes?id=${id}`, {
-      method: 'DELETE',
-    })
+    const res = await fetch(`/api/admin/recipes?id=${id}`, { method: 'DELETE' })
 
     if (res.ok) {
       setRecipes((prev) => prev.filter((r) => r.id !== id))
+      if (editingId === id) resetForm()
     } else {
       alert('Ошибка при удалении')
     }
@@ -76,7 +107,6 @@ export default function AdminClient() {
   function addIngredient() {
     const name = ingredientName.trim()
     const amount = Number(ingredientAmount)
-
     if (name && amount > 0) {
       setIngredients((prev) => [...prev, { name, amount }])
       setIngredientName('')
@@ -93,18 +123,23 @@ export default function AdminClient() {
     setSubmitting(true)
     setError('')
 
+    const payload = {
+      title,
+      description,
+      category,
+      calories,
+      instructions,
+      ingredients,
+    }
+
     try {
-      const res = await fetch('/api/admin/recipes/create', {
-        method: 'POST',
+      const url = editingId ? '/api/admin/recipes' : '/api/admin/recipes/create'
+      const method = editingId ? 'PUT' : 'POST'
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title,
-          description,
-          category,
-          calories,
-          instructions,
-          ingredients,
-        }),
+        body: JSON.stringify(editingId ? { id: editingId, ...payload } : payload),
       })
 
       if (!res.ok) {
@@ -112,17 +147,15 @@ export default function AdminClient() {
         throw new Error(data.error || 'Ошибка')
       }
 
-      const newRecipe = await res.json()
-      setRecipes((prev) => [newRecipe, ...prev])
+      const saved = await res.json()
 
-      // Очистка формы
-      setTitle('')
-      setDescription('')
-      setCalories('')
-      setInstructions('')
-      setIngredients([])
-      setIngredientName('')
-      setIngredientAmount('')
+      if (editingId) {
+        setRecipes((prev) => prev.map((r) => (r.id === editingId ? saved : r)))
+      } else {
+        setRecipes((prev) => [saved, ...prev])
+      }
+
+      resetForm()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка при сохранении')
     } finally {
@@ -148,7 +181,7 @@ export default function AdminClient() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl text-gray-600 font-bold">Админка рецептов</h1>
+          <h1 className="text-3xl text-gray-800 font-bold">Админка рецептов</h1>
           <button
             onClick={handleLogout}
             className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
@@ -157,9 +190,21 @@ export default function AdminClient() {
           </button>
         </div>
 
-        {/* Форма добавления */}
-        <div className="text-gray-600 rounded-xl shadow p-6 mb-10">
-          <h2 className="text-xl font-semibold mb-4">Добавить рецепт</h2>
+        <div className="bg-white rounded-xl shadow p-6 mb-10">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold text-gray-800">
+              {editingId ? 'Редактировать рецепт' : 'Добавить рецепт'}
+            </h2>
+            {editingId && (
+              <button
+                type="button"
+                onClick={resetForm}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
+                Отмена
+              </button>
+            )}
+          </div>
 
           {error && <p className="text-red-500 mb-4">{error}</p>}
 
@@ -195,13 +240,10 @@ export default function AdminClient() {
                   required
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
+                    <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
               </div>
-
               <div>
                 <label className="block text-sm font-medium mb-1">Калории</label>
                 <input
@@ -224,7 +266,6 @@ export default function AdminClient() {
               />
             </div>
 
-            {/* Ингредиенты */}
             <div>
               <label className="block text-sm font-medium mb-1">Ингредиенты</label>
               <div className="flex gap-2 mb-2">
@@ -247,7 +288,7 @@ export default function AdminClient() {
                 <button
                   type="button"
                   onClick={addIngredient}
-                  className="px-4 py-2 text-gray-600 rounded-lg hover:bg-gray-300"
+                  className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
                 >
                   Добавить
                 </button>
@@ -260,7 +301,7 @@ export default function AdminClient() {
                       key={i}
                       className="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
                     >
-                      {ing.name} — {ing.amount} г
+                      {ing.name} — {ing.amount}
                       <button
                         type="button"
                         onClick={() => removeIngredient(i)}
@@ -277,16 +318,19 @@ export default function AdminClient() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-blue-600 text-gray-600 py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              className="w-full bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-50"
             >
-              {submitting ? 'Сохраняем...' : 'Добавить рецепт'}
+              {submitting
+                ? 'Сохраняем...'
+                : editingId
+                ? 'Сохранить изменения'
+                : 'Добавить рецепт'}
             </button>
           </form>
         </div>
 
-        {/* Список рецептов */}
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl text-gray-600 font-semibold mb-4">
+          <h2 className="text-xl text-gray-800 font-semibold mb-4">
             Все рецепты ({recipes.length})
           </h2>
 
@@ -297,10 +341,12 @@ export default function AdminClient() {
               {recipes.map((recipe) => (
                 <div
                   key={recipe.id}
-                  className="border rounded-lg p-4 flex justify-between items-start gap-4"
+                  className={`border rounded-lg p-4 flex justify-between items-start gap-4 ${
+                    editingId === recipe.id ? 'border-blue-400 bg-blue-50' : ''
+                  }`}
                 >
                   <div>
-                    <h3 className="font-semibold text-gray-600 text-lg">{recipe.title}</h3>
+                    <h3 className="font-semibold text-gray-800 text-lg">{recipe.title}</h3>
                     <p className="text-sm text-gray-500">
                       {recipe.category} · {recipe.calories ?? '—'} ккал
                     </p>
@@ -313,20 +359,25 @@ export default function AdminClient() {
                       <p className="text-xs text-gray-500 mt-2">
                         Ингредиенты:{' '}
                         {recipe.ingredients
-                          .map(
-                            (i) =>
-                              `${i.ingredient.name} (${i.amount}${i.ingredient.unit})`
-                          )
+                          .map((i) => `${i.ingredient.name} (${i.amount}${i.ingredient.unit})`)
                           .join(', ')}
                       </p>
                     )}
                   </div>
-                  <button
-                    onClick={() => handleDelete(recipe.id)}
-                    className="shrink-0 px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm"
-                  >
-                    Удалить
-                  </button>
+                  <div className="flex gap-2 shrink-0">
+                    <button
+                      onClick={() => startEdit(recipe)}
+                      className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 text-sm"
+                    >
+                      Редактировать
+                    </button>
+                    <button
+                      onClick={() => handleDelete(recipe.id)}
+                      className="px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm"
+                    >
+                      Удалить
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
