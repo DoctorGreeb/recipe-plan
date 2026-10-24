@@ -18,21 +18,22 @@ model User {
 }
 
 model Recipe {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  instructions String  // пошаговая инструкция (можно Markdown)
-  calories    Int?     // калорийность на порцию
-  category    String   // "завтрак", "обед", "ужин", "десерт" и т.д.
-  imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  instructions String   // пошаговая инструкция (можно Markdown)
+  calories     Int?     // калорийность на порцию
+  category     String   // "завтрак", "обед", "ужин", "десерт" и т.д.
+  imageUrl     String?
+  status       String   @default("published")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   ingredients RecipeIngredient[]
   menuItems   MenuItem[]
 
-  authorId  String?
-  author    User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
 }
 
 model Ingredient {
@@ -40,7 +41,7 @@ model Ingredient {
   name     String   @unique
   unit     String   @default("г") // г, мл, шт и т.д.
 
-  recipes  RecipeIngredient[]
+  recipes       RecipeIngredient[]
   shoppingItems ShoppingItem[]
 }
 
@@ -50,8 +51,8 @@ model RecipeIngredient {
   ingredientId String
   amount       Float  // граммовка / количество
 
-  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
 
   @@unique([recipeId, ingredientId])
 }
@@ -63,18 +64,18 @@ model MenuItem {
   mealType  String   // "breakfast" | "lunch" | "dinner"
   weekStart DateTime // начало недели (понедельник)
 
-  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
   @@unique([weekStart, dayOfWeek, mealType])
 }
 
 model ShoppingItem {
-  id          String  @id @default(cuid())
+  id           String  @id @default(cuid())
   ingredientId String
-  amount      Float
-  unit        String
-  isBought    Boolean @default(false)
-  weekStart   DateTime
+  amount       Float
+  unit         String
+  isBought     Boolean @default(false)
+  weekStart    DateTime
 
-  ingredient  Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
 }
