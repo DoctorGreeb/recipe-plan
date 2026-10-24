@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 
 interface IngredientItem {
@@ -50,9 +50,21 @@ export default function MyRecipesClient() {
   const [deleting, setDeleting] = useState(false)
   const [dialogError, setDialogError] = useState('')
 
-  useEffect(() => {
-    fetchRecipes()
+  const fetchRecipes = useCallback(async () => {
+    try {
+      const res = await fetch('/api/my-recipes')
+      if (!res.ok) throw new Error('Не удалось загрузить')
+      setRecipes(await res.json())
+    } catch {
+      setError('Ошибка загрузки рецептов')
+    } finally {
+      setLoading(false)
+    }
   }, [])
+
+  useEffect(() => {
+    void fetchRecipes()
+  }, [fetchRecipes])
 
   useEffect(() => {
     if (deleteTarget || dialogError) {
@@ -65,17 +77,6 @@ export default function MyRecipesClient() {
     }
   }, [deleteTarget, dialogError])
 
-  async function fetchRecipes() {
-    try {
-      const res = await fetch('/api/my-recipes')
-      if (!res.ok) throw new Error('Не удалось загрузить')
-      setRecipes(await res.json())
-    } catch {
-      setError('Ошибка загрузки рецептов')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   function resetForm() {
     setEditingId(null)
