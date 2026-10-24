@@ -243,15 +243,15 @@ export default function AdminClient() {
 
   return (
     <div className="page">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 sm:mb-8">
           <h1 className="text-3xl font-bold">Админка рецептов</h1>
           <button type="button" onClick={handleLogout} className="btn btn-danger">
             Выйти
           </button>
         </div>
 
-        <div className="flex gap-2 mb-6">
+        <div className="mb-6 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => setTab('recipes')}
@@ -350,7 +350,7 @@ export default function AdminClient() {
 
                 <div>
                   <label className="block text-sm font-medium mb-1">Ингредиенты</label>
-                  <div className="flex gap-2 mb-2">
+                  <div className="mb-2 flex flex-wrap gap-2">
                     <input
                       type="text"
                       value={ingredientName}
@@ -458,7 +458,7 @@ export default function AdminClient() {
                           </p>
                         )}
                       </div>
-                      <div className="flex gap-2 shrink-0">
+                      <div className="flex flex-wrap gap-2 shrink-0">
                         <button
                           type="button"
                           onClick={() => startEdit(recipe)}
@@ -527,7 +527,7 @@ export default function AdminClient() {
                         </p>
                       )}
                     </div>
-                    <div className="flex gap-2 shrink-0 self-start">
+                    <div className="flex flex-wrap gap-2 shrink-0 self-start">
                       <button
                         type="button"
                         disabled={moderatingId === recipe.id}
