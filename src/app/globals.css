@@ -7,7 +7,7 @@
   --bg-muted: #edf2ec;
   --text-primary: #202a22;
   --text-secondary: #56645a;
-  --text-muted: #78847b;
+  --text-muted: #59665b;
   --text-on-primary: #ffffff;
   --color-primary: #386849;
   --color-primary-hover: #2c543b;
@@ -40,18 +40,21 @@ body {
   margin: 0;
   background: var(--bg-page);
   color: var(--text-primary);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  /* Use one Cyrillic-capable family consistently for Russian and Latin text. */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
+@layer base {
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 }
 
 button,
@@ -62,9 +65,11 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 button {
@@ -98,7 +103,7 @@ button {
     min-height: 100dvh;
     background: var(--bg-page);
     padding: clamp(1rem, 3vw, 2.5rem);
-    animation: page-enter 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: page-enter 360ms ease-out both;
   }
 
   .card {
@@ -199,7 +204,7 @@ button {
   }
 
   .input::placeholder {
-    color: #8a968c;
+    color: #626f64;
   }
 
   .input:hover:not(:disabled) {
@@ -258,8 +263,8 @@ button {
 }
 
 @keyframes page-enter {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes soft-rise {
