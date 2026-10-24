@@ -254,6 +254,7 @@ export default function MenuPage() {
         {loading ? (
           <p className="text-muted">Загрузка...</p>
         ) : (
+          <>
           <section className="mb-4 grid gap-3 md:hidden" aria-label="План меню по дням">
             {DAY_LABELS.map((label, day) => {
               const date = addDays(weekStart, day)
@@ -376,6 +377,7 @@ export default function MenuPage() {
               </tbody>
             </table>
           </div>
+          </>
         )}
       </div>
 
