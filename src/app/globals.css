@@ -314,3 +314,40 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Shared polish for the complete product, not just the landing page. */
+@layer components {
+  .page :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) { border-radius: var(--radius-control); }
+  .page label { color: var(--text-secondary); }
+  .page table { border-collapse: separate; border-spacing: 0; }
+  .page table thead th { background: #f7f9f6; color: var(--text-secondary); font-weight: 650; }
+  .page table th, .page table td { border-color: var(--border); }
+  .page tbody tr { transition: background-color var(--motion-fast) ease; }
+  .page tbody tr:hover { background: rgb(237 242 236 / 0.45); }
+  .page :is(.rounded-lg.border, .rounded-xl.border) { border-color: var(--border); }
+  .page .bg-white.rounded-xl.shadow { border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow); }
+  .page input[type="checkbox"] { width: 1.15rem; height: 1.15rem; flex-shrink: 0; border-radius: .35rem; cursor: pointer; accent-color: var(--color-primary); }
+  .page [role="dialog"] { border-color: var(--border); box-shadow: 0 24px 80px rgb(17 34 20 / .2); animation: dialog-enter 180ms cubic-bezier(.2,.7,.2,1) both; }
+  .page .line-clamp-2, .page .line-clamp-4 { overflow-wrap: anywhere; }
+  .recipe-filters { margin-bottom: 1.5rem; padding: clamp(1rem,2.5vw,1.5rem); background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow); }
+  .recipe-filters label { display:block; margin-bottom:.4rem; color:var(--text-secondary); font-size:.85rem; font-weight:600; }
+  .recipe-filter-actions { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1rem; }
+  .recipe-filter-actions button { min-height:2.75rem; padding:.65rem 1.1rem; border:1px solid var(--border-strong); border-radius:var(--radius-control); background:#fff; color:var(--text-primary); font-weight:600; transition:background var(--motion-fast) ease,transform var(--motion-fast) ease; }
+  .recipe-filter-actions button:first-child { background:var(--color-primary); border-color:var(--color-primary); color:#fff; }
+  .recipe-filter-actions button:hover { background:var(--bg-muted); }
+  .recipe-filter-actions button:first-child:hover { background:var(--color-primary-hover); }
+  .recipe-filter-actions button:active { transform:scale(.98); }
+  .recipe-card { display:block; min-width:0; overflow:hidden; padding:clamp(1rem,2.5vw,1.5rem); background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-card); box-shadow:var(--shadow); transition:transform var(--motion-normal) ease,border-color var(--motion-normal) ease,box-shadow var(--motion-normal) ease; }
+  .recipe-card:hover { transform:translateY(-2px); border-color:var(--border-strong); box-shadow:var(--shadow-hover); }
+  .recipe-ingredient { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; padding:.7rem 0; border-bottom:1px solid var(--border); }
+  .recipe-ingredient:last-child { border-bottom:0; padding-bottom:0; }
+  .recipe-ingredient:first-child { padding-top:0; }
+}
+@keyframes dialog-enter { from {opacity:0;transform:translateY(8px) scale(.99)} to {opacity:1;transform:translateY(0) scale(1)} }
+@media (max-width:640px) {
+  .page .recipe-filter-actions > button { flex:1 1 8rem; }
+  .page .flex.gap-3.text-sm { flex-wrap:wrap; gap:.75rem; }
+  .page .card .flex.gap-2.shrink-0 { flex-wrap:wrap; }
+  .page [role="dialog"] { max-height:88dvh; overflow-y:auto; }
+}
