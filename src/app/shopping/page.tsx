@@ -175,7 +175,7 @@ export default function ShoppingPage() {
                 ) : (
                     <>
                         {/* Действия над списком — отдельная строка */}
-                        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-white p-4">
+                        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-(--border) bg-white p-4">
                             <span className="text-sm text-muted">
                                 Осталось: {remaining.length} · Куплено: {bought.length}
                             </span>
