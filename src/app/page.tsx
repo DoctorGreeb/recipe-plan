@@ -100,7 +100,7 @@ export default async function Home() {
                 <p className="mt-1 text-xs text-[#526b56]">Вдохновение на каждый день</p>
               </div>
             </div>
-            <div className="relative top-7 flex min-h-36 flex-col justify-between rounded-2xl bg-[#f5eddd] p-4 sm:min-h-44 sm:p-5">
+            <div className="mt-7 flex min-h-36 flex-col justify-between rounded-2xl bg-[#f5eddd] p-4 sm:min-h-44 sm:p-5">
               <span className="flex size-10 items-center justify-center text-[#69512c]">
                 <CalendarDays size={36} strokeWidth={1.7} aria-hidden="true" />
               </span>
@@ -109,7 +109,7 @@ export default async function Home() {
                 <p className="mt-1 text-xs text-[#69512c]">Всё на своих местах</p>
               </div>
             </div>
-            <div className="col-span-2 mt-7 flex items-center gap-4 rounded-2xl border border-(--border) bg-[#f8faf7] p-4 sm:p-5">
+            <div className="col-span-2 flex items-center gap-4 rounded-2xl border border-(--border) bg-[#f8faf7] p-4 sm:p-5">
               <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white text-xl shadow-sm">✓</span>
               <div>
                 <p className="font-semibold">Меньше лишних покупок</p>
