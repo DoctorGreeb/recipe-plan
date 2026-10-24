@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import {useEffect, useState } from 'react'
 import Link from 'next/link'
 
 interface IngredientItem {
@@ -50,21 +50,37 @@ export default function MyRecipesClient() {
   const [deleting, setDeleting] = useState(false)
   const [dialogError, setDialogError] = useState('')
 
-  const fetchRecipes = useCallback(async () => {
-    try {
-      const res = await fetch('/api/my-recipes')
-      if (!res.ok) throw new Error('Не удалось загрузить')
-      setRecipes(await res.json())
-    } catch {
-      setError('Ошибка загрузки рецептов')
-    } finally {
-      setLoading(false)
+    useEffect(() => {
+    const controller = new AbortController()
+
+    fetch('/api/my-recipes', { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Не удалось загрузить')
+        }
+
+        return res.json() as Promise<Recipe[]>
+      })
+      .then((data) => {
+        setRecipes(data)
+      })
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return
+        }
+
+        setError('Ошибка загрузки рецептов')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
+      })
+
+    return () => {
+      controller.abort()
     }
   }, [])
-
-  useEffect(() => {
-    void fetchRecipes()
-  }, [fetchRecipes])
 
   useEffect(() => {
     if (deleteTarget || dialogError) {
