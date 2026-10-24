@@ -226,8 +226,8 @@ export default function MenuPage() {
 
   return (
     <div className="page">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 sm:mb-8">
           <div>
             <h1 className="text-3xl font-bold">Меню на неделю</h1>
             <p className="text-secondary mt-1">{rangeLabel}</p>
@@ -254,7 +254,7 @@ export default function MenuPage() {
         {loading ? (
           <p className="text-muted">Загрузка...</p>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" aria-label="План меню на неделю">
             <table className="w-full border-collapse min-w-[640px]">
               <thead>
                 <tr>
