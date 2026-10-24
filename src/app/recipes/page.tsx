@@ -73,9 +73,7 @@ export default async function RecipesPage({ searchParams }: Props) {
           ingredients={ingredientsList.map((i) => i.name)}
         />
 
-        <p className="text-sm text-muted mb-4">
-          Найдено: {recipes.length}
-        </p>
+        <div className="mb-4 flex items-center justify-between gap-3"><p className="text-sm text-secondary">Найдено рецептов</p><span className="badge">{recipes.length}</span></div>
 
         {recipes.length === 0 ? (
           <div className="text-center py-12 text-muted">
